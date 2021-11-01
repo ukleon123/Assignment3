@@ -1,35 +1,40 @@
+#include<stdlib.h>
 #include<stdio.h>
+#include<stdint.h>
 #include<pthread.h>
 
-#define MAX_PROCESS = 4
+#define MAX_PROCESS 4
+typedef struct {
+	int data[2];
+	FILE* fd;
+}calc;
 
-int *add(void* data){
-	int* act_data = data;
-	return data[0] + data[1];
+void *add(void* data){
+	calc* act_data = data;
+	int ret = (act_data->data[0] + act_data->data[1]);
+	printf("%d\n", ret);
+	fprintf(act_data->fd, "%d\n", ret);
 }
 
 void main(){
 
 	pthread_t pthread[MAX_PROCESS];
-	FILE* text = fopen("temp.txt", "a+");
-	
-	int tmp;
-	int data[2];
+	void* ret;
+	char* one;
 	char line[3];
 	
-	parameter.data = data; 
+	calc* data = malloc(sizeof(calc));
 	for (float i = MAX_PROCESS; i >= 1; i /= 2){
+		FILE* text = fopen("temp.txt", "a+");
+		data->fd = text;
 		for (int j = 0; j < i; j++){
 			for(int k = 0; k < 2; k++){
-				fgets(line, 2, text);
-				data[k] = line[0];
+				one = fgets(line, 3, text);
+				data->data[k] = one[0];
 			}
-			pthread_create(&pthread[0], NULL, add, (void *)parameter);
+			pthread_create(&pthread[j], NULL, add, (void *)data);
+			pthread_detach(pthread[j]);
 		}
-		for (int j = 0; j < i; j++){
-			pthread_join(pthread[j], );
-		}
-	}
-	fclose(text);
-	
+		fclose(text);
+	}	
 }
