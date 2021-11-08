@@ -6,7 +6,7 @@
 #include<sys/shm.h>
 #include<sys/ipc.h>
 
-#define MAX_PROCESS 4
+#define MAX_PROCESS 8
 
 int main(){
 	int pid = 0;
@@ -29,7 +29,7 @@ int main(){
 	*lock = 0;
 	*offset = 0;
 	if(sms == (void*) -1) exit(0);
-	for (int i = 0; i < 2; i++){
+	for (int i = 0; i < 3; i++){
 		if(pid == 0){
 			pid = fork();
 			if (pid != 0){
@@ -53,7 +53,7 @@ int main(){
 		tmp += atoi(data);
 	}
 	*offset = ftell(text);
-	printf("%d\n", *offset);
+	printf("%d\n", tmp);
 	fprintf(text ,"%d\n", tmp);
 	*lock = 0;
 	if(root){ 

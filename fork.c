@@ -4,9 +4,7 @@
 #include<pthread.h>
 #include<signal.h>
 
-#pragma warning(disable:4996)
-
-#define MAX_PROCESS 4
+#define MAX_PROCESS 8
 
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
